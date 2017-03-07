@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "data.h"
+
 // set default value of the count to 1(0 would be overflow for calculate the entropy)
 data::data(){
 	sd.resize(LA);
