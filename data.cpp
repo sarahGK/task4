@@ -1,5 +1,5 @@
 #include "data.h"
-
+// set default value of the count to 1(0 would be overflow for calculate the entropy)
 data::data(){
 	sd.resize(LA);
 	se.resize(LA);
@@ -43,9 +43,8 @@ void data::set_data(int s, int a, int b, int c, int d, int e, int f, int g, int 
 
 void data::set_data(double **dataarray,int length,int no){
 	double sum = 0.0;
-	double sums[LA];//
+	double sums[LA];
 	double sumac[LA];
-	//double joint[LA][LA];
 	double pre,post;
 	pre= post = 0.0;
 	for (int i=0;i<LA;i++)
@@ -72,10 +71,7 @@ void data::set_data(double **dataarray,int length,int no){
 		sums[i] = sums[i]/sum;
 		pre = pre -sums[i] * log(sums[i]);
 		for (int j=0;j<length;j++)
-		{
-			//*(*(dataarray+i)+j) = joint[i][j] /sumac[j] ;
 			post = post-*((double *)dataarray + i*length +j)*log(*((double *)dataarray + i*length +j)/sumac[j]);
-		}
 	}
 
 	if(post>pre) mark[no] = true;
@@ -87,7 +83,6 @@ void data::set_data(std::vector<vector<double> > &de,int no){
 	double sum = 0.0;
 	double sums[LA];
 	double sumac[LA];
-	//double joint[LA][LA];
 	double pre,post;
 	pre= post = 0.0;
 	for (int i=0;i<LA;i++)
@@ -114,53 +109,15 @@ void data::set_data(std::vector<vector<double> > &de,int no){
 		sums[i] = sums[i]/sum;
 		pre = pre -sums[i] * log(sums[i]);
 		for (int j=0;j<LA;j++)
-		{
-			//de[i][j] = joint[i][j] /sumac[j] ;
 			post = post-de[i][j]*log(de[i][j]/sumac[j]);
-		}
 	}
 
 	if(post>pre) mark[no] = true;
 }
 
-/*void data::set_data(int s, int f, int g, int h){
-	++sf[s][f];
-	++sg[s][g];
-	++sh[s][h];
-}*/
-
-/*void data::readin(ifstream &f1,ifstream &f2){
-
-}*/
-
 void data::print_data(ostream & of){
-	/*for (int i=0;i<LA;i++)
-	{
-		for (int j=0;j<20;j++)
-		{
-			of<<sa[i][j] ;
-			of<<sb[i][j] ;
-			of<<sc[i][j] ;
-		}
-
-		for (int j=0;j<LA;j++)
-		{
-			of<<sd[i][j];
-			of<<se[i][j];
-		}
-		for (int j=0;j<3;j++)
-		{
-			of<<sf[i][j] ;
-			of<<sg[i][j] ;
-			of<<sh[i][j] ;
-		}
-	}
-	of<<endl;
-	of<<endl;*/
 	for (int i=0;i<8;i++)
-	{
 		of<<mark[i]<<endl;
-	}
 }
 
 int BinarySearchChar(char c)
